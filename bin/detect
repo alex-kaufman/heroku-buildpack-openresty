@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+cd $1
+if [ -f "conf/openresty.conf" ]; then
+  echo "OpenResty" && exit 0
+else
+  exit 1
+fi
