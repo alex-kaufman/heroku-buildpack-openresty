@@ -1,13 +1,25 @@
 #!/bin/sh
 
 BUILD_DIR=$1
+ENV_DIR=$3
 
 PKG="https://github.com/davidad/heroku-buildpack-openresty/releases/download/v1.5.11.1-1/openresty_build-1.5.11.1-1.tar.gz"
 
 echo "-----> Unpacking $PKG..."
 curl -L $PKG | tar xzf - -C $BUILD_DIR
+mkdir -p $BUILD_DIR/conf/env/vars
+cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
 
 if [ ! -r $BUILD_DIR/Procfile ]; then
-  echo '       No Procfile; using "web: nginx -p `pwd`/ -c conf/openresty.conf".'
-  echo 'web: openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf' > $BUILD_DIR/Procfile
+  if [ ! -r $BUILD_DIR/start.sh ]; then
+    echo > $BUILD_DIR/start.sh <<'EOF'
+mkdir -p logs
+touch logs/error.log
+touch logs/access.log
+echo "listen $PORT;" > conf/env/heroku-http-port
+openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf
+EOF
+  fi
+  echo '       No Procfile; using start.sh'
+  echo 'web: start.sh' > $BUILD_DIR/Procfile
 fi
