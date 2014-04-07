@@ -10,5 +10,5 @@ curl -L $PKG | tar xzf - -C $BUILD_DIR/openresty
 
 if [ ! -r $BUILD_DIR/Procfile ]; then
   echo '-----> No Procfile; using "web: nginx -p `pwd`/ -c conf/openresty.conf".'
-  echo 'web: nginx -p `pwd`/ -c conf/openresty.conf' > $BUILD_DIR/Procfile
+  echo 'web: openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf' > $BUILD_DIR/Procfile
 fi
