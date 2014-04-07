@@ -12,6 +12,7 @@ export PATH=/sbin:$PATH
 ./configure --prefix=/app/openresty --with-pcre=/app/pcre-8.34 --with-luajit --with-http_postgres_module --with-file-aio --with-ipv6 --with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module --with-mail --with-mail_ssl_module --with-pcre-jit --with-http_iconv_module -j2
 make
 make install
+cd
 tar czf openresty_build-1.5.11.1-1.tar.gz openresty
 ```
 and sticking that `openresty_build-1.5.11.1-1.tar.gz` file in the [Releases](https://github.com/davidad/heroku-buildpack-openresty/releases) section of this repository.
