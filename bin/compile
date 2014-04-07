@@ -2,13 +2,12 @@
 
 BUILD_DIR=$1
 
-PKG="https://github.com/davidad/heroku-buildpack-openresty/releases/download/v1.5.8.1-2/openresty_build-1.5.8.1-2.tar.gz"
+PKG="https://github.com/davidad/heroku-buildpack-openresty/releases/download/v1.5.11.1-1/openresty_build-1.5.11.1-1.tar.gz"
 
 echo "-----> Unpacking $PKG..."
-mkdir -p /usr/local
-curl -L $PKG | tar xzf - -C /usr/local
+curl -L $PKG | tar xzf - -C $BUILD_DIR
 
 if [ ! -r $BUILD_DIR/Procfile ]; then
-  echo '-----> No Procfile; using "web: nginx -p `pwd`/ -c conf/openresty.conf".'
-  echo 'web: usr/local/openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf' > $BUILD_DIR/Procfile
+  echo '       No Procfile; using "web: nginx -p `pwd`/ -c conf/openresty.conf".'
+  echo 'web: openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf' > $BUILD_DIR/Procfile
 fi
