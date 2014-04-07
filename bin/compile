@@ -1,0 +1,14 @@
+#!/bin/sh
+
+BUILD_DIR=$1
+
+PKG="openresty_build-1.5.8.1-2.tar.gz"
+
+echo "-----> Unpacking $PKG..."
+mkdir -p $BUILD_DIR/openresty
+tar xzf $PKG -C $BUILD_DIR/openresty
+
+if [ ! -r $BUILD_DIR/Procfile ]; then
+  echo '-----> No Procfile; using "web: nginx -p `pwd`/ -c conf/openresty.conf".'
+  echo 'web: nginx -p `pwd`/ -c conf/openresty.conf' > $BUILD_DIR/Procfile
+fi
