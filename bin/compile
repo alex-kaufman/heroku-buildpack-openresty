@@ -12,14 +12,16 @@ cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
 
 if [ ! -r $BUILD_DIR/Procfile ]; then
   if [ ! -r $BUILD_DIR/start.sh ]; then
-    echo > $BUILD_DIR/start.sh <<'EOF'
+    cat > $BUILD_DIR/start.sh <<'EOF'
+#!/bin/sh
 mkdir -p logs
 touch logs/error.log
 touch logs/access.log
 echo "listen $PORT;" > conf/env/heroku-http-port
 openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf
 EOF
+    chmod +x $BUILD_DIR/start.sh
   fi
   echo '       No Procfile; using start.sh'
-  echo 'web: start.sh' > $BUILD_DIR/Procfile
+  echo 'web: ./start.sh' > $BUILD_DIR/Procfile
 fi
