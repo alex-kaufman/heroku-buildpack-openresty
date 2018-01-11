@@ -8,7 +8,7 @@ curl -O -L http://openresty.org/download/openresty-1.13.6.1.tar.gz
 # tar xzf pcre-8.34.tar.gz
 tar -xvf openresty-1.13.6.1.tar.gz 
 cd openresty-1.13.6.1
-./configure -j2  --with-pcre-jit --with-luajit
+./configure -j2
 make -j2
 make install
 export PATH=/sbin:$PATH
