@@ -13,6 +13,8 @@ export PATH=/sbin:$PATH
 ./configure -j2  --with-pcre-jit --with-luajit --prefix=/app/openresty
 make -j2
 make install
+cd
+tar czf openresty_build-1.13.6.1.tar.gz openresty
 # ./configure --prefix=/app/openresty --with-pcre=/app/pcre-8.34 --with-luajit --with-file-aio --with-ipv6 --with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module --with-mail --with-mail_ssl_module --with-pcre-jit --with-http_iconv_module -j2
 # make
 # make install
@@ -22,7 +24,7 @@ make install
 # PKG="https://github.com/davidad/heroku-buildpack-openresty/releases/download/v1.5.11.1-1/openresty_build-1.5.11.1-1.tar.gz"
 
 echo "-----> Unpacking $PKG..."
-curl -L $PKG | tar xzf - -C $BUILD_DIR
+tar xzf openresty -C $BUILD_DIR
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
 
