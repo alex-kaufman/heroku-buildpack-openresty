@@ -60,5 +60,5 @@ EOF
     chmod +x $BUILD_DIR/start.sh
   fi
   topic '       No Procfile; using start.sh'
-  topic 'web: ./start.sh' > $BUILD_DIR/Procfile
+  echo 'web: ./start.sh' > $BUILD_DIR/Procfile
 fi
