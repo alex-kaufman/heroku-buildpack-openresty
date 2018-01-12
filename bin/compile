@@ -37,8 +37,8 @@ OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/app"
 	make install
 	cd
 
-	topic "Caching directory..."
-	cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
+	# topic "Caching directory..."
+	# cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
 
 	topic "Making Openresty available to running application...."
 	mv $APP_PREFIX $BUILD_DIR/
