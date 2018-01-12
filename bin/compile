@@ -22,7 +22,7 @@ then
 	topic "Restoring openresty build from cache..."
 	mv $APP_PREFIX $BUILD_DIR/
 else
-	$PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
+	PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
 
 	topic "Downloading Openresty..."
 	curl -O -L $PKG
