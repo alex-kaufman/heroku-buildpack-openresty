@@ -22,7 +22,7 @@ rebuild_from_source() {
 	sh build/build.sh $1 $2 $3
 }
 
-build_from_binary()
+build_from_binary
 
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
