@@ -17,7 +17,7 @@ mkdir -p $BP_CACHE_DIR
 OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/app"
 
 
-if [ -d $OPENRESTY_CACHE_DIR ]
+if [ -d "$OPENRESTY_CACHE_DIR" ]
 then
 	topic "Restoring openresty build from cache..."
 	mv $OPENRESTY_CACHE_DIR $BUILD_DIR/
@@ -38,7 +38,7 @@ else
 	cd
 
 	topic "Caching directory..."
-	cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
+	# cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
 
 	topic "Making Openresty available to running application...."
 	mv $APP_PREFIX $BUILD_DIR/
