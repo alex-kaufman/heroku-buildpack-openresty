@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
 
-function topic() {
+topic() {
   echo "-----> $*"
 }
 
