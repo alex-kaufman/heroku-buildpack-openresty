@@ -9,45 +9,20 @@ topic() {
   echo "-----> $*"
 }
 
-topic "Downlaoding package"
-PKG="https://github.com/alex-kaufman/heroku-buildpack-openresty/releases/download/v1.13.6.1/openresty_build-1.13.6.1.tar.gz"
 
-topic "Unpacking $PKG..."
-curl -L $PKG | tar xzf - -C $BUILD_DIR
+build_from_binary() {
+	topic "Downlaoding package"
+	PKG="https://github.com/alex-kaufman/heroku-buildpack-openresty/releases/download/v1.13.6.1/openresty_build-1.13.6.1.tar.gz"
 
+	topic "Unpacking $PKG..."
+	curl -L $PKG | tar xzf - -C $BUILD_DIR
+}
 
-# APP_PREFIX=/app/.heroku
-# mkdir -p $APP_PREFIX
+rebuild_from_source() {
+	sh build/build.sh $1 $2 $3
+}
 
-# mkdir -p $CACHE_DIR
-
-
-# # if [ -d "$CACHE_DIR/$APP_PREFIX" ]
-# # then
-# 	# topic "Restoring openresty build from cache..."
-# 	# cp $CACHE_DIR/$APP_PREFIX $BUILD_DIR/
-# # else
-# 	PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
-
-# 	topic "Downloading Openresty..."
-# 	curl -O -L $PKG
-
-# 	tar -xvf openresty-1.13.6.1.tar.gz 
-# 	cd openresty-1.13.6.1
-# 	export PATH=/sbin:$PATH
-
-# 	topic "Configuring openresty...."
-# 	./configure -j2  --with-pcre-jit --with-luajit --prefix=$APP_PREFIX
-# 	make
-# 	make install
-# 	cd
-
-# 	# topic "Caching directory..."
-# 	# cp -R $APP_PREFIX $CACHE_DIR
-
-# 	topic "Making Openresty available to running application...."
-# 	mv $APP_PREFIX $BUILD_DIR/
-# # fi
+build_from_binary()
 
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
