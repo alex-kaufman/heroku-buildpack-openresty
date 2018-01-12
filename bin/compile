@@ -17,11 +17,11 @@ mkdir -p $BP_CACHE_DIR
 OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/app"
 
 
-# if [ -d $OPENRESTY_CACHE_DIR ]
-# then
-	# topic "Restoring openresty build from cache..."
-	# mv $OPENRESTY_CACHE_DIR $BUILD_DIR/
-# else
+if [ -d $OPENRESTY_CACHE_DIR ]
+then
+	topic "Restoring openresty build from cache..."
+	mv $OPENRESTY_CACHE_DIR $BUILD_DIR/
+else
 	PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
 
 	topic "Downloading Openresty..."
@@ -37,12 +37,12 @@ OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/app"
 	make install
 	cd
 
-	# topic "Caching directory..."
-	# cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
+	topic "Caching directory..."
+	cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
 
 	topic "Making Openresty available to running application...."
 	mv $APP_PREFIX $BUILD_DIR/
-# fi
+fi
 
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
