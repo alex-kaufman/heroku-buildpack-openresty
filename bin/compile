@@ -14,13 +14,13 @@ mkdir -p $APP_PREFIX
 
 BP_CACHE_DIR="$CACHE_DIR/heroku-openresty-buildpack"
 mkdir -p $BP_CACHE_DIR
-OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/$APP_PREFIX"
+OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/app"
 
 
 if [ -d $OPENRESTY_CACHE_DIR ]
 then
 	topic "Restoring openresty build from cache..."
-	mv $APP_PREFIX $BUILD_DIR/
+	mv $openresty $BUILD_DIR/
 else
 	PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
 
@@ -38,7 +38,7 @@ else
 	cd
 
 	topic "Caching directory..."
-	mv $APP_PREFIX $OPENRESTY_CACHE_DIR
+	cp -R $APP_PREFIX $OPENRESTY_CACHE_DIR
 
 	topic "Making Openresty available to running application...."
 	mv $APP_PREFIX $BUILD_DIR/
