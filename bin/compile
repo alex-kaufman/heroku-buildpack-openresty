@@ -1,39 +1,48 @@
 #!/bin/sh
 
 BUILD_DIR=$1
+CACHE_DIR=$2
 ENV_DIR=$3
-echo $BUILD_DIR
-echo $ENV_DIR
 
-# BUILD_PREFIX=$BUILD_DIR/.heroku
+
+function topic() {
+  echo "-----> $*"
+}
+
 APP_PREFIX=/app/.heroku
 mkdir -p $APP_PREFIX
-# mkdir -p $BUILD_PREFIX
+
+BP_CACHE_DIR="$CACHE_DIR/heroku-openresty-buildpack"
+mkdir -p $BP_CACHE_DIR
+OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/$APP_PREFIX"
 
 
-# curl -O -L http://downloads.sourceforge.net/sourceforge/pcre/pcre-8.34.tar.gz
-curl -O -L http://openresty.org/download/openresty-1.13.6.1.tar.gz 
-# tar xzf pcre-8.34.tar.gz
-tar -xvf openresty-1.13.6.1.tar.gz 
-cd openresty-1.13.6.1
-export PATH=/sbin:$PATH
+if [ -d $OPENRESTY_CACHE_DIR ]
+	topic "Restoring openresty build from cache..."
+	mv $APP_PREFIX $BUILD_DIR/
+else
+	$PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
 
-./configure -j2  --with-pcre-jit --with-luajit --prefix=$APP_PREFIX
-make
-make install
-cd
-mv $APP_PREFIX $BUILD_DIR/
-# tar czf openresty_build-1.13.6.1.tar.gz openresty
-# ./configure --prefix=/app/openresty --with-pcre=/app/pcre-8.34 --with-luajit --with-file-aio --with-ipv6 --with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module --with-mail --with-mail_ssl_module --with-pcre-jit --with-http_iconv_module -j2
-# make
-# make install
-# cd
-# tar czf openresty_build-1.5.11.1-1.tar.gz openresty
+	topic "Downloading Openresty..."
+	curl -O -L $PKG
 
-# PKG="https://github.com/davidad/heroku-buildpack-openresty/releases/download/v1.5.11.1-1/openresty_build-1.5.11.1-1.tar.gz"
+	tar -xvf openresty-1.13.6.1.tar.gz 
+	cd openresty-1.13.6.1
+	export PATH=/sbin:$PATH
 
-echo "-----> Unpacking $PKG..."
-tar xzf openresty -C $BUILD_DIR
+	topic "Configuring openresty...."
+	./configure -j2  --with-pcre-jit --with-luajit --prefix=$APP_PREFIX
+	make
+	make install
+	cd
+
+	topic "Caching directory..."
+	mv $APP_PREFIX $OPENRESTY_CACHE_DIR
+
+	topic "Making Openresty available to running application...."
+	mv $APP_PREFIX $BUILD_DIR/
+function
+
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
 
@@ -45,10 +54,10 @@ mkdir -p logs
 touch logs/error.log
 touch logs/access.log
 echo "listen $PORT;" > conf/env/heroku-http-port
-.heroku/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf
+openresty/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf
 EOF
     chmod +x $BUILD_DIR/start.sh
   fi
-  echo '       No Procfile; using start.sh'
-  echo 'web: ./start.sh' > $BUILD_DIR/Procfile
+  topic '       No Procfile; using start.sh'
+  topic 'web: ./start.sh' > $BUILD_DIR/Procfile
 fi
