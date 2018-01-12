@@ -18,6 +18,7 @@ OPENRESTY_CACHE_DIR="$BP_CACHE_DIR/$APP_PREFIX"
 
 
 if [ -d $OPENRESTY_CACHE_DIR ]
+then
 	topic "Restoring openresty build from cache..."
 	mv $APP_PREFIX $BUILD_DIR/
 else
