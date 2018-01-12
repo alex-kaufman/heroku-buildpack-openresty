@@ -11,6 +11,7 @@ topic() {
 
 
 build_from_binary() {
+	topic "Building from binary..."
 	topic "Downlaoding package"
 	PKG="https://github.com/alex-kaufman/heroku-buildpack-openresty/releases/download/v1.13.6.1/openresty_build-1.13.6.1.tar.gz"
 
@@ -18,11 +19,14 @@ build_from_binary() {
 	curl -L $PKG | tar xzf - -C $BUILD_DIR
 }
 
-rebuild_from_source() {
+build_from_source() {
+	topic "Building from source..."
 	sh build/build.sh $1 $2 $3
 }
 
-build_from_binary
+# build_from_binary
+
+build_from_source
 
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
