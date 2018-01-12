@@ -6,6 +6,7 @@ ENV_DIR=$3
 
 APP_PREFIX=/app/.heroku
 mkdir -p $APP_PREFIX
+OPENRESTY_DOWNLOAD_VERSION="openresty-1.13.6.1.tar.gz"
 
 topic() {
   echo "-----> $*"
@@ -24,7 +25,7 @@ build_from_binary() {
 build_from_source() {
 	topic "Building from source..."
 
-	PKG=http://openresty.org/download/openresty-1.13.6.1.tar.gz 
+	PKG="http://openresty.org/download/$OPENRESTY_DOWNLOAD_VERSION"
 
 	topic "Downloading Openresty..."
 	curl -O -L $PKG
@@ -43,9 +44,9 @@ build_from_source() {
 	mv $APP_PREFIX $BUILD_DIR/
 }
 
-# build_from_binary
+build_from_binary
 
-build_from_source
+# build_from_source
 
 mkdir -p $BUILD_DIR/conf/env/vars
 cp $ENV_DIR/* $BUILD_DIR/conf/env/vars
