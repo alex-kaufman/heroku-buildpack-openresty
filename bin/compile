@@ -59,6 +59,7 @@ mkdir -p logs
 touch logs/error.log
 touch logs/access.log
 echo "listen $PORT;" > conf/env/heroku-http-port
+echo "resolver $RESOLVER valid=10s;" > conf/env/resolver
 .heroku/nginx/sbin/nginx -p `pwd`/ -c conf/openresty.conf
 EOF
     chmod +x $BUILD_DIR/start.sh
